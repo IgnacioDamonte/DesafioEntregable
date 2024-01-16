@@ -2,6 +2,8 @@ import express from 'express';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
+import envs from '../enviroment.js';
+
 import productsRouter from './routes/products-router.js';
 import cartsRouter from './routes/cart-router.js';
 import productsViews from './routes/views-router.js';
@@ -18,8 +20,12 @@ import DBMessageManager from './DAO/mongoDB/messageManager.js';
 import initializePassport from './config/passport-config.js';
 import passport from 'passport';
 
+
+
+
+
 const app = express();
-const url = "mongodb+srv://nachodamonte:av8UsYfzZ7beECGs@clusternacho.19jchdd.mongodb.net/";
+const url = (envs.MONGO_URL);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -50,7 +56,7 @@ app.use('/api/carts', cartsRouter);
 app.use('/messages', messageRouter);
 app.use('/api/session', sessionRouter);
 
-const httpServer = app.listen(8080, () => console.log("Servidor activo en el puerto 8080"));
+const httpServer = app.listen(envs.PORT, () => console.log("Servidor activo "));
 const io = new Server(httpServer);
 
 
